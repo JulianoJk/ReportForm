@@ -9,7 +9,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   return (
     <>
-      {/* {isUserLogged ? (
+      {isUserLogged ? (
         <>
           <HeaderMegaMenu></HeaderMegaMenu>
           <SectionOneForm></SectionOneForm>
@@ -26,10 +26,8 @@ const HomePage = () => {
           >
             Log in
           </Button>
-        </>      )}
- */}
-      <HeaderMegaMenu></HeaderMegaMenu>
-      <SectionOneForm></SectionOneForm>
+        </>
+      )}
     </>
   );
 };
