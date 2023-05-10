@@ -1,29 +1,36 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useReducer } from "react";
 
 const defaultState = {
-    errorAlertMessage: '',
-    isSessionExpired: false,
-    isUserLogged: false,
-  };
-const ApplicationState = React.createContext(
-  undefined
-);
+  errorAlertMessage: "",
+  isSessionExpired: false,
+  isUserLogged: false,
+  userInfo: {
+    username: "",
+    email: "",
+    role: "",
+    token: "",
+  },
+};
+const ApplicationState = React.createContext(undefined);
 
-ApplicationState.displayName = 'ApplicationState';
+ApplicationState.displayName = "ApplicationState";
 const ApplicationDispatch = React.createContext(undefined);
 
 // Reducer function
 const appReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_ERROR_ALERT_MESSAGE':
+    case "SET_ERROR_ALERT_MESSAGE":
       return { ...state, errorAlertMessage: action.errorAlertMessage };
-    case 'SET_SESSION_TOKEN_EXPIRED':
+    case "SET_SESSION_TOKEN_EXPIRED":
       return { ...state, isSessionExpired: action.isSessionExpired };
-    case 'SET_USER_LOGGED':
+    case "SET_USER_LOGGED":
       return { ...state, isUserLogged: action.isUserLogged };
-
-    case 'RESET_ERROR_MESSAGE':
-      return { ...state, errorAlertMessage: '' };
+    case "RESET_ERROR_MESSAGE":
+      return { ...state, errorAlertMessage: "" };
+    case "SET_USER_INFO":
+      return { ...state, userInfo: action.userInfo };
+    default:
+      return;
   }
 };
 // Context Provider for the user
@@ -42,7 +49,7 @@ const AppContextProvider = ({ children }) => {
 const useAppState = () => {
   const context = useContext(ApplicationState);
   if (context === undefined) {
-    throw new Error('useAppState must be used within useAppStateContext');
+    throw new Error("useAppState must be used within useAppStateContext");
   }
   return context;
 };
@@ -51,7 +58,7 @@ const useAppState = () => {
 const useAppDispatch = () => {
   const context = useContext(ApplicationDispatch);
   if (context === undefined) {
-    throw new Error('useAppDispatch must be used within AppDispatchContext');
+    throw new Error("useAppDispatch must be used within AppDispatchContext");
   }
   return context;
 };

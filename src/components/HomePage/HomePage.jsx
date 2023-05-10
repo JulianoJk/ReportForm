@@ -3,30 +3,33 @@ import { HeaderMegaMenu } from "../Header/Header.jsx";
 import { useAppState } from "../../context/AppContext";
 import { Button } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-
+import SectionOneForm from "../IncidentReportForm/SectionOneForm.jsx";
 const HomePage = () => {
   const { isUserLogged } = useAppState();
   const navigate = useNavigate();
   return (
     <>
-      {isUserLogged ? (
+      {/* {isUserLogged ? (
         <>
           <HeaderMegaMenu></HeaderMegaMenu>
-          <h1>Home Page</h1>
-          <p>This is the home page</p>
+          <SectionOneForm></SectionOneForm>
         </>
       ) : (
         <>
-        <HeaderMegaMenu></HeaderMegaMenu>
+          <HeaderMegaMenu></HeaderMegaMenu>
 
           <h1>Not logged</h1>
           <Button
             onClick={() => {
-              navigate("/");
+              navigate("/login");
             }}
-          >Log in</Button>
-        </>
-      )}
+          >
+            Log in
+          </Button>
+        </>      )}
+ */}
+      <HeaderMegaMenu></HeaderMegaMenu>
+      <SectionOneForm></SectionOneForm>
     </>
   );
 };

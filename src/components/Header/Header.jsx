@@ -113,7 +113,7 @@ export function HeaderMegaMenu() {
               {isUserLogged ? "Home" : "Index"}
             </Button>
             <Button onClick={handleLogOut}>
-              {isUserLogged ? "Log in" : "Log out"}
+              {isUserLogged ? "Log out" : "Log in"}
             </Button>
           </Group>
 
