@@ -93,16 +93,14 @@ export function HeaderMegaMenu() {
   const appDispatch = useAppDispatch();
 
   const { isUserLogged } = useAppState();
-  useEffect(() => {
-    console.log("isUserLogged", isUserLogged);
-  }, [isUserLogged]);
   const handleHomeRoute = () => {
     const route = isUserLogged ? "/home" : "/";
     navigate(route);
   };
   const handleLogOut = () => {
     appDispatch({ type: "SET_USER_LOGGED", isUserLogged: false });
-    navigate("/");
+    appDispatch({ type: "RESET" });
+    navigate(isUserLogged ? "/" : "/login");
   };
   return (
     <Box pb={120}>

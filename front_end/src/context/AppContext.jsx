@@ -29,6 +29,8 @@ const appReducer = (state, action) => {
       return { ...state, errorAlertMessage: "" };
     case "SET_USER_INFO":
       return { ...state, userInfo: action.userInfo };
+    case "RESET":
+      return defaultState;
     default:
       return;
   }

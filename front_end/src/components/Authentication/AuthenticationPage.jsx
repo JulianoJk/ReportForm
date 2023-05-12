@@ -13,9 +13,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import { HeaderMegaMenu } from "../Header/Header.jsx";
 import { useAppDispatch } from "../../context/AppContext";
+import { useMutation } from "@tanstack/react-query";
+import { loginAPI } from "../../api/api.js";
+import { Alert } from "@mantine/core";
+import { useState } from "react";
 
 const AuthenticationForm = (props) => {
   const { classes } = useStyles();
+  const [errorResponse, setErrorResponse] = useState("");
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
   const form = useForm({
@@ -33,10 +38,22 @@ const AuthenticationForm = (props) => {
     },
   });
 
+  const { mutate: login } = useMutation(loginAPI, {
+    onSuccess: (data) => {
+      if (data.status === "error") {
+        setErrorResponse(data.message);
+        return;
+      }
+
+      appDispatch({ type: "SET_USER_LOGGED", isUserLogged: true });
+      navigate("/home");
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
   const handleOnSumbit = (values) => {
-    console.log(`email: ${values.email}, password: ${values.password}`);
-    appDispatch({ type: "SET_USER_LOGGED", isUserLogged: true });
-    navigate("/home");
+    login({ email: values.email, password: values.password });
   };
   return (
     <>
@@ -85,6 +102,11 @@ const AuthenticationForm = (props) => {
                 }
                 radius="md"
               />
+              {errorResponse && (
+                <Alert icon={""} title="Bummer!" color="red" variant="filled">
+                  {errorResponse}
+                </Alert>
+              )}
             </Stack>
             <Box>
               <Button
