@@ -94,11 +94,7 @@ export function HeaderMegaMenu() {
   const appDispatch = useAppDispatch();
 
   const { isUserLogged, userInfo } = useAppState();
-  useEffect(() => {
-    console.log("HeaderMegaMenu.jsx: useEffect: isUserLogged: ", isUserLogged);
-  }, [isUserLogged]);
   const handleHomeRoute = () => {
-    console.log(userInfo.role);
     navigate(navigateByRole(userInfo.role));
   };
   const handleLogOut = () => {
