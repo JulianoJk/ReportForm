@@ -50,7 +50,6 @@ app.post("/api/register", async (req, res) => {
       role: req.body.role,
       site: req.body.site,
     });
-    // sign the JWT token and send it to the user
     const token = jwt.sign(
       {
         username: req.body.username,
@@ -77,7 +76,6 @@ app.post("/api/login", async (req, res) => {
       res.status(404).json({ status: "error", message: "User not found" });
       return;
     }
-    // check if user is admin or user
     const isValid = await bcrypt.compare(req.body.password, user.password);
     if (isValid) {
       const token = jwt.sign(

@@ -15,6 +15,7 @@ import { useAppState } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../context/AppContext";
 import { useEffect } from "react";
+import { navigateByRole } from "../utils/utils";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -92,10 +93,13 @@ export function HeaderMegaMenu() {
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
 
-  const { isUserLogged } = useAppState();
+  const { isUserLogged, userInfo } = useAppState();
+  useEffect(() => {
+    console.log("HeaderMegaMenu.jsx: useEffect: isUserLogged: ", isUserLogged);
+  }, [isUserLogged]);
   const handleHomeRoute = () => {
-    const route = isUserLogged ? "/home" : "/";
-    navigate(route);
+    console.log(userInfo.role);
+    navigate(navigateByRole(userInfo.role));
   };
   const handleLogOut = () => {
     appDispatch({ type: "SET_USER_LOGGED", isUserLogged: false });

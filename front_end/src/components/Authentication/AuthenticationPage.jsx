@@ -17,7 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginAPI } from "../../api/api.js";
 import { Alert } from "@mantine/core";
 import { useState } from "react";
-import { parseJwt } from "../utils/utils";
+import { navigateByRole, parseJwt } from "../utils/utils";
 
 const AuthenticationForm = (props) => {
   const { classes } = useStyles();
@@ -50,13 +50,8 @@ const AuthenticationForm = (props) => {
       appDispatch({ type: "SET_USER_LOGGED", isUserLogged: true });
       appDispatch({ type: "SET_USER_INFO", userInfo: userInfo });
       appDispatch({ type: "SET_USER_TOKEN", userToken: data.token });
-      userInfo.role === "admin"
-        ? navigate("/admin")
-        : userInfo.role === "user"
-        ? navigate("/home")
-        : userInfo.role === "manager"
-        ? navigate("/manager")
-        : navigate("/");
+
+      navigate(navigateByRole(userInfo.role));
     },
     onError: (error) => {
       console.log("error", error);

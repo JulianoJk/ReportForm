@@ -29,10 +29,8 @@ const appReducer = (state, action) => {
     case "RESET_ERROR_MESSAGE":
       return { ...state, errorAlertMessage: "" };
     case "SET_USER_INFO":
-      console.log("action.userInfo", action.userInfo);
       return { ...state, userInfo: action.userInfo };
     case "SET_USER_TOKEN":
-      console.log("action.userToken", action.userToken);
       return { ...state, userToken: action.userToken };
     case "RESET":
       return defaultState;
