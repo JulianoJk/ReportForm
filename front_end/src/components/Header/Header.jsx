@@ -15,6 +15,7 @@ import { useAppState } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../context/AppContext";
 import { useEffect } from "react";
+import { navigateByRole } from "../utils/utils";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -92,17 +93,14 @@ export function HeaderMegaMenu() {
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
 
-  const { isUserLogged } = useAppState();
-  useEffect(() => {
-    console.log("isUserLogged", isUserLogged);
-  }, [isUserLogged]);
+  const { isUserLogged, userInfo } = useAppState();
   const handleHomeRoute = () => {
-    const route = isUserLogged ? "/home" : "/";
-    navigate(route);
+    navigate(navigateByRole(userInfo.role));
   };
   const handleLogOut = () => {
     appDispatch({ type: "SET_USER_LOGGED", isUserLogged: false });
-    navigate("/");
+    appDispatch({ type: "RESET" });
+    navigate(isUserLogged ? "/" : "/login");
   };
   return (
     <Box pb={120}>

@@ -8,15 +8,16 @@ const defaultState = {
     username: "",
     email: "",
     role: "",
-    token: "",
+    iat: "",
   },
+  userToken: "",
 };
+
 const ApplicationState = React.createContext(undefined);
 
 ApplicationState.displayName = "ApplicationState";
 const ApplicationDispatch = React.createContext(undefined);
 
-// Reducer function
 const appReducer = (state, action) => {
   switch (action.type) {
     case "SET_ERROR_ALERT_MESSAGE":
@@ -29,11 +30,14 @@ const appReducer = (state, action) => {
       return { ...state, errorAlertMessage: "" };
     case "SET_USER_INFO":
       return { ...state, userInfo: action.userInfo };
+    case "SET_USER_TOKEN":
+      return { ...state, userToken: action.userToken };
+    case "RESET":
+      return defaultState;
     default:
       return;
   }
 };
-// Context Provider for the user
 const AppContextProvider = ({ children }) => {
   const [useAppState, appDispatch] = useReducer(appReducer, defaultState);
 
@@ -45,7 +49,6 @@ const AppContextProvider = ({ children }) => {
     </ApplicationState.Provider>
   );
 };
-// Pass the state of the user
 const useAppState = () => {
   const context = useContext(ApplicationState);
   if (context === undefined) {
@@ -54,7 +57,6 @@ const useAppState = () => {
   return context;
 };
 
-// Function to use the userDispatch
 const useAppDispatch = () => {
   const context = useContext(ApplicationDispatch);
   if (context === undefined) {

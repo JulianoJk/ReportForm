@@ -1,6 +1,6 @@
 import React from "react";
 import { HeaderMegaMenu } from "../Header/Header.jsx";
-import { useAppState } from "../../context/AppContext";
+import { useAppState } from "../../context/AppContext.jsx";
 import { Button } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import SectionOneForm from "../IncidentReportForm/SectionOneForm.jsx";
@@ -9,7 +9,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   return (
     <>
-      {/* {isUserLogged ? (
+      {isUserLogged ? (
         <>
           <HeaderMegaMenu></HeaderMegaMenu>
           <SectionOneForm></SectionOneForm>
@@ -26,10 +26,8 @@ const HomePage = () => {
           >
             Log in
           </Button>
-        </>      )}
- */}
-      <HeaderMegaMenu></HeaderMegaMenu>
-      <SectionOneForm></SectionOneForm>
+        </>
+      )}
     </>
   );
 };
