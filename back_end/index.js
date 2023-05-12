@@ -6,21 +6,15 @@ const User = require("./models/user.model");
 const jwt = require("jsonwebtoken");
 
 const app = express();
-mongoose.connect(
-  "mongodb+srv://" +
-    process.env.mongo_user +
-    ":" +
-    process.env.mongo_password +
-    "@cluster0.jnw32.mongodb.net/ehs"
-);
+mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
 app.use(express.json());
 
 app.get("/hello", (req, res) => {
-  const token = req.headers["x-access-token"];
+  // const token = req.headers["x-access-token"];
 
   try {
-    const decoded = jwt.verify(token, process.env.jwt_secret);
-    console.log(decoded.username);
+    // const decoded = jwt.verify(token, process.env.jwt_secret);
+    // console.log(decoded.username);
     res.send("Hello!");
   } catch (err) {
     res.send("Access Denied");
@@ -30,6 +24,18 @@ app.get("/hello", (req, res) => {
 app.post("/api/register", async (req, res) => {
   try {
     const encrPassw = await bcrypt.hash(req.body.password, 10);
+    // q: how check if user with the same username or email already exists
+    const user =
+      (await User.findOne({
+        username: req.body.username,
+      })) ||
+      (await User.findOne({
+        email: req.body.email,
+      }));
+    if (user) {
+      res.json({ status: "error", message: "User already exists" });
+      return;
+    }
     await User.create({
       username: req.body.username,
       password: encrPassw,
@@ -38,7 +44,18 @@ app.post("/api/register", async (req, res) => {
       role: req.body.role,
       site: req.body.site,
     });
-    res.json({ status: "ok" });
+    // sign the JWT token and send it to the user
+    const token = jwt.sign(
+      {
+        username: req.body.username,
+        email: req.body.email,
+        role: req.body.role,
+        name: req.body.name,
+        site: req.body.site,
+      },
+      process.env.jwt_secret
+    );
+    res.json({ status: "User created succesfully", token: token });
   } catch (err) {
     console.log(err);
     res.json({ status: "error", code: err["code"] });
