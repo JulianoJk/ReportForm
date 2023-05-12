@@ -64,7 +64,7 @@ app.post("/api/register", async (req, res) => {
 
 app.post("/api/login", async (req, res) => {
   const user = await User.findOne({
-    username: req.body.username,
+    email: req.body.email,
   });
   if (!user) {
     res.json({ status: "error", message: "User not found" });
@@ -74,11 +74,12 @@ app.post("/api/login", async (req, res) => {
     const token = jwt.sign(
       {
         username: user.username,
+        email: user.email,
         role: user.role,
       },
       process.env.jwt_secret
     );
-    res.json({ status: "ok", token: token });
+    res.json({ status: "Login succesful", token: token });
   } else {
     res.json({ status: "error", message: "Wrong credentials" });
   }
