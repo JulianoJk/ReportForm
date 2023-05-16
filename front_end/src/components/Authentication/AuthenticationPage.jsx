@@ -39,7 +39,7 @@ const AuthenticationForm = (props) => {
     },
   });
 
-  const { mutate: login } = useMutation(loginAPI, {
+  const { mutate: login, isLoading } = useMutation(loginAPI, {
     onSuccess: (data) => {
       if (data.status === "error") {
         setErrorResponse(data.message);
@@ -119,6 +119,7 @@ const AuthenticationForm = (props) => {
                 radius="xl"
                 className={classes.submitButton}
                 color="green"
+                loading={isLoading}
               >
                 Login
               </Button>

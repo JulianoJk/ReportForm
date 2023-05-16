@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 import { useForm } from "@mantine/form";
 import { DateInput } from "@mantine/dates";
-const SectionOneForm = () => {
+const SectionTwoForm = () => {
   const [checked, setChecked] = useState(false);
 
   const [dateError, setDateError] = useState(null);
@@ -29,14 +29,6 @@ const SectionOneForm = () => {
       dateReported: "",
       email: "",
       message: "",
-
-      status: {
-        faculty: false,
-        staff: false,
-        student: false,
-        visitor: false,
-        contractor: false,
-      },
     },
     validate: {
       firstName: (value) =>
@@ -186,4 +178,4 @@ const SectionOneForm = () => {
     </Center>
   );
 };
-export default SectionOneForm;
+export default SectionTwoForm;

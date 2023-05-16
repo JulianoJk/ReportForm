@@ -49,7 +49,7 @@ const AdminPage = () => {
           : "Invalid role",
     },
   });
-  const { mutate: login } = useMutation(registerAPI, {
+  const { mutate: login, isLoading } = useMutation(registerAPI, {
     onSuccess: (data) => {
       if (data.status === "error") {
         setErrorResponse(data.message);
@@ -171,6 +171,7 @@ const AdminPage = () => {
                     radius="xl"
                     className={classes.submitButton}
                     color="green"
+                    loading={isLoading}
                   >
                     Register user
                   </Button>

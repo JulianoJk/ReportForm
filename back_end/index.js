@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 const User = require("./models/user.model");
+const ReportSectionOne = require("./models/report.model");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
@@ -98,6 +99,44 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.post("/api/reports", async (req, res) => {
+  try {
+    const report = await ReportSectionOne.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      address: req.body.address,
+      phone: req.body.phone,
+      dateReported: req.body.dateReported,
+      status: req.body.status,
+    });
+    res
+      .status(200)
+      .json({ status: "report submitted successfully", report: report });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ status: "error", message: err });
+  }
+});
+
 app.listen(5001, () => {
   console.log("Server started at port 5001");
 });
+
+// Sample Report JSON for testing in Postman:
+// {
+//   "firstName": "firstName",
+//   "lastName": "lastName",
+//   "address": "1281 asd here",
+//   "phone": "9413491238123981293",
+//   "dateReported": "912831291 12312",
+//   "email": "adasodhasuduasda@sadjasdi.com",
+//   "message": "iasjdiasjdiasjdidisajd",
+//   "status": {
+//       "faculty": true,
+//       "staff": false,
+//       "student": false,
+//       "visitor": false,
+//       "contractor": false
+//   }
+// }
