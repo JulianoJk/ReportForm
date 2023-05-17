@@ -20,7 +20,7 @@ import { DateInput, TimeInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 
 const SectionTwoForm = () => {
-  const [checked, setChecked] = useState(false);
+
   const [value, setValue] = useState([]);
   const [isOtherClicked, { toggle }] = useDisclosure(false);
 
