@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 const User = require("./models/user.model");
-const ReportSectionOne = require("./models/report.model");
+const Report = require("./models/report.model");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
@@ -99,20 +99,44 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/api/reports", async (req, res) => {
+app.post("/api/newReport", async (req, res) => {
   try {
-    const report = await ReportSectionOne.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      address: req.body.address,
-      phone: req.body.phone,
+    const report = await Report.create({
+      userEmail: req.body.userEmail,
+      userName: req.body.userName,
       dateReported: req.body.dateReported,
-      status: req.body.status,
+      time: req.body.time,
+      campusLocation: req.body.campusLocation,
+      status: {
+        injuryOrIllness: req.body.status.injuryOrIllness,
+        unsafeCondition: req.body.status.unsafeCondition,
+        environmentalSpill: req.body.status.environmentalSpill,
+        fire: req.body.status.fire,
+        nonVehicularAccident: req.body.status.nonVehicularAccident,
+        other: req.body.status.other,
+      },
+      otherType: req.body.otherType,
+      // Section 2
+      sectionTwoType: {
+        none: req.body.sectionTwoType.none,
+        physicalInjury: req.body.sectionTwoType.physicalInjury,
+        occupationalIllness: req.body.sectionTwoType.occupationalIllness,
+        potentialHarmfulExposure:
+          req.body.sectionTwoType.potentialHarmfulExposure,
+      },
+      treatment: {
+        none: req.body.treatment.none,
+        firstAid: req.body.treatment.firstAid,
+        emergencyMedicalServices: req.body.treatment.emergencyMedicalServices,
+        personalPhysician: req.body.treatment.personalPhysician,
+        studentHealthServices: req.body.treatment.studentHealthServices,
+        hospitalOutpatient: req.body.treatment.hospitalOutpatient,
+        hospitalAdmitted: req.body.treatment.hospitalAdmitted,
+      },
     });
     res
       .status(200)
-      .json({ status: "report submitted successfully", report: report });
+      .json({ status: "report submitted successfully", reportID: report._id });
   } catch (err) {
     console.log(err);
     res.status(500).json({ status: "error", message: err });
@@ -121,6 +145,13 @@ app.post("/api/reports", async (req, res) => {
 
 app.listen(5001, () => {
   console.log("Server started at port 5001");
+
+  mongoose.connection.on("connected", () => {
+    console.log("Connected to MongoDB");
+  });
+  mongoose.connection.on("error", (err) => {
+    console.log("Error: " + err);
+  });
 });
 
 // Sample Report JSON for testing in Postman:

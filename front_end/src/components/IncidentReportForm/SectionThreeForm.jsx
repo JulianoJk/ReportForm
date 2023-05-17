@@ -19,8 +19,7 @@ import { useForm } from "@mantine/form";
 import { DateInput, TimeInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 
-const SectionTwoForm = () => {
-
+const SectionThreeForm = () => {
   const [value, setValue] = useState([]);
   const [isOtherClicked, { toggle }] = useDisclosure(false);
 
@@ -104,138 +103,65 @@ const SectionTwoForm = () => {
   };
   return (
     <Center>
-      <Card sx={{ width: 1100, marginTop: -100, border: "1px solid black" }}>
-        <ScrollArea h={600}>
-          <form onSubmit={form.onSubmit(handleSubmit)}>
-            <Box>
-              <Title
-                size="md"
-                sx={(theme) => ({
-                  fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-                })}
-                weight={900}
-                align="center"
-              >
-                SECTION 1 - INCIDENT INFORMATION
-                <Divider my="sm" />
-              </Title>
-            </Box>
-
-            <SimpleGrid
-              cols={2}
-              mt="xl"
-              breakpoints={[{ maxWidth: "md", cols: 2 }]}
+      <Card>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Box>
+            <Title
+              size="md"
+              sx={(theme) => ({
+                fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              })}
+              weight={900}
+              align="center"
             >
-              <DateInput
-                valueFormat="DD/MM/YYYY"
-                error={dateError}
-                maxDate={new Date()}
-                minDate={new Date(1990, 1, 1)}
-                label="Date of the Incident (MM/DD/YYYY)"
-                placeholder="Pick date"
-                variant="filled"
-                maw={500}
-                mx="auto"
-                sx={{ width: "100%" }}
-                onChange={(value) => {
-                  form.setFieldValue("dateReported", value.toString());
-                  setDateError(null);
-                }}
-                withAsterisk
-              />
-              <TimeInput
-                label="Time (HH:MM)"
-                variant="filled"
-                description="Press space for more options"
-                withAsterisk
-                onChange={(event) => {
-                  console.log(event.target.value.toString());
-                  form.setFieldValue("time", event.target.value.toString());
-                }}
-              />
-              <TextInput
-                withAsterisk
-                label="Campus Location"
-                placeholder="Campus Location"
-                name="Campus Location"
-                variant="filled"
-                {...form.getInputProps("campusLocation")}
-              />
+              SECTION 2 - INJURY OR ILLNESS
+              <Divider my="sm" />
+            </Title>
+            <Checkbox.Group
+              label="Type:"
+              withAsterisk
+              value={value}
+              onChange={setValue}
+            >
+              <Group mt="md">
+                <Checkbox
+                  value="none"
+                  label="None"
+                  // onClick={(value) => onCheckboxChange(value)}
+                />
+                <Checkbox
+                  value="physicalInjury"
+                  label="Physical Injury"
+                  // onClick={(value) => onCheckboxChange(value)}
+                />
+                <Checkbox
+                  value="occupationalIllness"
+                  label="Occupational Illness"
+                  // onClick={(value) => onCheckboxChange(value)}
+                />
+                <Checkbox
+                  value="potentialHarmfulExposure"
+                  label="Potential Harmful Exposure"
+                  // onClick={(value) => onCheckboxChange(value)}
+                />
+              </Group>
+            </Checkbox.Group>
 
-              <Checkbox.Group
-                label="Status:"
-                withAsterisk
-                value={value}
-                onChange={setValue}
-              >
-                <Group mt="md">
-                  <Checkbox
-                    value="injuryOrIllness"
-                    label="Injury/Illness"
-                    // onClick={(value) => onCheckboxChange(value)}
-                  />
-                  <Checkbox
-                    value="unsafeCondition"
-                    label="Unsafe Condition"
-                    // onClick={(value) => onCheckboxChange(value)}
-                  />
-                  <Checkbox
-                    value="environmentalSpill"
-                    label="Environmental Spill"
-                    // onClick={(value) => onCheckboxChange(value)}
-                  />
-                  <Checkbox
-                    value="Fire"
-                    label="Fire"
-                    // onClick={(value) => onCheckboxChange(value)}
-                  />
-                  <Checkbox
-                    value="laboratorySpillORIncident"
-                    label="Laboratory Spill/Incident"
-                    onClick={(value) => onCheckboxChange(value)}
-                  />
-                  <Checkbox
-                    value="nonVehicularAccident"
-                    label="Non-Vehicular Accident"
-                    // onClick={(value) => onCheckboxChange(value)}
-                  />
-                  <Checkbox value="other" label="Other" onClick={toggle} />
-                </Group>
-              </Checkbox.Group>
-            </SimpleGrid>
-            <Collapse in={isOtherClicked}>
-              <TextInput
-                withAsterisk
-                label="Please specify"
-                placeholder="Please specify the other type"
-                name="otherType"
-                variant="filled"
-                {...form.getInputProps("otherType")}
-              />
-            </Collapse>
             <Textarea
               mt="md"
-              label="Description and cause of the incident"
-              description="Indicate conditions such as weather, construction, cleaning, etc. with
-                your explanation. Visitors should include their purpose for being on campus."
+              label="Injured Persons and Description of Injuries:"
               placeholder="Your message"
               maxRows={10}
               minRows={5}
               autosize
-              name="message"
+              name="DescriptionAndCauseOfTheIncident"
               variant="filled"
-              {...form.getInputProps("message")}
+              {...form.getInputProps("DescriptionAndCauseOfTheIncident")}
             />
-
-            <Group position="center" mt="xl">
-              <Button type="submit" size="md">
-                Submit Report
-              </Button>
-            </Group>
-          </form>
-        </ScrollArea>
+          </Box>
+        </form>
       </Card>
     </Center>
   );
 };
-export default SectionTwoForm;
+export default SectionThreeForm;

@@ -19,19 +19,18 @@ import { useForm } from "@mantine/form";
 import { DateInput, TimeInput } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 
-const SectionTwoForm = () => {
-  const [checked, setChecked] = useState(false);
-  const [value, setValue] = useState([]);
-  const [isOtherClicked, { toggle }] = useDisclosure(false);
+const SectionForm = () => {
+  const [isOtherClicked, toogleIsOtherClicked] = useDisclosure(false);
+  const [openSectionTwo, toggleSectionTwo] = useDisclosure(false);
 
   const [dateError, setDateError] = useState(null);
   const form = useForm({
     initialValues: {
+      // Section 1
       dateReported: "",
       time: "",
       campusLocation: "",
-
-      type: {
+      status: {
         // TODO!: For this
         injuryOrIllness: false,
         unsafeCondition: false,
@@ -43,35 +42,25 @@ const SectionTwoForm = () => {
         other: false,
       },
       otherType: "",
-    },
-    validate: {
-      firstName: (value) =>
-        value.trim().length < 2 ? "First name is too short" : null,
-      lastName: (value) =>
-        value.trim().length < 2 ? "Last name is too short" : null,
-      address: (value) =>
-        value.trim().length < 2 ? "Address is too short" : null,
-      phone: (value) =>
-        !/^\d+$/.test(value) || value.length < 8
-          ? "Phone number is invalid"
-          : null,
-      email: (value) =>
-        !/^\S+@\S+$/.test(value) ? "Email address is invalid" : null,
-      dateReported: (value) => {
-        if (!value) {
-          setDateError("Date is required");
-        } else if (new Date(value) > new Date()) {
-          setDateError("Date can't be in the future");
-        } else {
-          setDateError(null);
-        }
+      // Section 2
+      sectionTwoType: {
+        none: false,
+        physicalInjury: false,
+        occupationalIllness: false,
+        potentialHarmfulExposure: false,
+      },
+      treatment: {
+        none: false,
+        firstAid: false,
+        emergencyMedicalServices: false,
+        personalPhysician: false,
+        studentHealthServices: false,
+        hospitalOutpatient: false,
+        hospitalAdmitted: false,
       },
     },
   });
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
   // const { mutate: login, isLoading } = useMutation(loginAPI, {
   //   onSuccess: (data) => {
   //     if (data.status === "error") {
@@ -94,13 +83,15 @@ const SectionTwoForm = () => {
   //   login({ email: values.email, password: values.password });
   // };
   const handleSubmit = (values) => {
-    console.log(values);
+    console.log(form.values);
   };
+  // a: this is a function that is called when a checkbox is clicked and it updates the form values to reflect the new checkbox state (checked or unchecked)
   const onCheckboxChange = (event) => {
-    // console.log(event.target.value);
-    // q: how to change the value of the status object?
-
-    form.setFieldValue(event.target.value, event.target.checked);
+    form.setFieldValue("status", {
+      ...form.values.status,
+      // this line is updating the value of the type object in the form values
+      [event.target.value]: event.target.checked,
+    });
   };
   return (
     <Center>
@@ -162,32 +153,30 @@ const SectionTwoForm = () => {
                 {...form.getInputProps("campusLocation")}
               />
 
-              <Checkbox.Group
-                label="Status:"
-                withAsterisk
-                value={value}
-                onChange={setValue}
-              >
+              <Checkbox.Group label="Status:" withAsterisk>
                 <Group mt="md">
                   <Checkbox
                     value="injuryOrIllness"
                     label="Injury/Illness"
-                    // onClick={(value) => onCheckboxChange(value)}
+                    onClick={(value) => {
+                      onCheckboxChange(value);
+                      toggleSectionTwo.toggle();
+                    }}
                   />
                   <Checkbox
                     value="unsafeCondition"
                     label="Unsafe Condition"
-                    // onClick={(value) => onCheckboxChange(value)}
+                    onClick={(value) => onCheckboxChange(value)}
                   />
                   <Checkbox
                     value="environmentalSpill"
                     label="Environmental Spill"
-                    // onClick={(value) => onCheckboxChange(value)}
+                    onClick={(value) => onCheckboxChange(value)}
                   />
                   <Checkbox
-                    value="Fire"
+                    value="fire"
                     label="Fire"
-                    // onClick={(value) => onCheckboxChange(value)}
+                    onClick={(value) => onCheckboxChange(value)}
                   />
                   <Checkbox
                     value="laboratorySpillORIncident"
@@ -197,9 +186,16 @@ const SectionTwoForm = () => {
                   <Checkbox
                     value="nonVehicularAccident"
                     label="Non-Vehicular Accident"
-                    // onClick={(value) => onCheckboxChange(value)}
+                    onClick={(value) => onCheckboxChange(value)}
                   />
-                  <Checkbox value="other" label="Other" onClick={toggle} />
+                  <Checkbox
+                    value="other"
+                    label="Other"
+                    onClick={(value) => {
+                      onCheckboxChange(value);
+                      toogleIsOtherClicked.toggle();
+                    }}
+                  />
                 </Group>
               </Checkbox.Group>
             </SimpleGrid>
@@ -226,6 +222,87 @@ const SectionTwoForm = () => {
               variant="filled"
               {...form.getInputProps("message")}
             />
+            <Collapse in={openSectionTwo}>
+              <Box sx={{ marginTop: "1rem" }}>
+                <Title
+                  size="md"
+                  sx={(theme) => ({
+                    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+                  })}
+                  weight={900}
+                  align="center"
+                >
+                  SECTION 2 - INJURY OR ILLNESS
+                  <Divider my="sm" />
+                </Title>
+              </Box>
+              <Checkbox.Group label="Type:" withAsterisk>
+                <Group mt="md">
+                  <Checkbox
+                    value="none"
+                    label="None"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                  <Checkbox
+                    value="physicalInjury"
+                    label="Physical Injury"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                  <Checkbox
+                    value="occupationalIllness"
+                    label="Occupational Illness"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                  <Checkbox
+                    value="potentialHarmfulExposure"
+                    label="Potential Harmful Exposure"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                </Group>
+              </Checkbox.Group>
+              <Textarea
+                mt="md"
+                label="Injured Persons and Description of Injuries:"
+                placeholder="Your message"
+                maxRows={10}
+                minRows={5}
+                autosize
+                name="DescriptionAndCauseOfTheIncident"
+                variant="filled"
+                {...form.getInputProps("descriptionAndCauseOfTheIncident")}
+              />
+              <Checkbox.Group label="Type:" withAsterisk>
+                <Group mt="md">
+                  <Checkbox value="none" label="None" />
+                  <Checkbox value="firstAid" label="1st Aid" />
+                  <Checkbox
+                    value="emergencyMedicalServices"
+                    label="Emergency Medical Services"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                  <Checkbox
+                    value="personalPhysician"
+                    label="Personal Physician"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                  <Checkbox
+                    value="studentHealthServices"
+                    label="Student Health Services"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                  <Checkbox
+                    value="hospitalOutpatient"
+                    label="Hospital (Outpatient)"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                  <Checkbox
+                    value="hospitalAdmitted"
+                    label="Hospital (Admitted)"
+                    onClick={(value) => onCheckboxChange(value)}
+                  />
+                </Group>
+              </Checkbox.Group>
+            </Collapse>
 
             <Group position="center" mt="xl">
               <Button type="submit" size="md">
@@ -238,4 +315,4 @@ const SectionTwoForm = () => {
     </Center>
   );
 };
-export default SectionTwoForm;
+export default SectionForm;
