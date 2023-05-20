@@ -8,6 +8,7 @@ import HomePage from "./components/Pages/HomePage.jsx";
 import { AppContextProvider } from "./context/AppContext.jsx";
 import ManagerPage from "./components/Pages/ManagerPage.jsx";
 import AdminPage from "./components/Pages/AdminPage.jsx";
+
 export default function App() {
   const queryClient = new QueryClient();
 

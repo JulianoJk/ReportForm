@@ -14,7 +14,6 @@ import { useDisclosure } from "@mantine/hooks";
 import { useAppState } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../context/AppContext";
-import { useEffect } from "react";
 import { navigateByRole } from "../utils/utils";
 
 const useStyles = createStyles((theme) => ({
@@ -96,12 +95,14 @@ export function HeaderMegaMenu() {
   const { isUserLogged, userInfo } = useAppState();
   const handleHomeRoute = () => {
     navigate(navigateByRole(userInfo.role));
+    console.log(userInfo);
   };
   const handleLogOut = () => {
     appDispatch({ type: "SET_USER_LOGGED", isUserLogged: false });
     appDispatch({ type: "RESET" });
     navigate(isUserLogged ? "/" : "/login");
   };
+
   return (
     <Box pb={120}>
       <Header height={60} px="md">

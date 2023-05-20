@@ -24,6 +24,7 @@ const AuthenticationForm = (props) => {
   const [errorResponse, setErrorResponse] = useState("");
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
+
   const form = useForm({
     initialValues: {
       email: "",
@@ -60,6 +61,7 @@ const AuthenticationForm = (props) => {
   const handleOnSumbit = (values) => {
     login({ email: values.email, password: values.password });
   };
+
   return (
     <>
       <HeaderMegaMenu></HeaderMegaMenu>

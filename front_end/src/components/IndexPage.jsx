@@ -10,17 +10,16 @@ import ReportImages from "../images/ReportImage.jpg";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
-
-  wrapper:{
-    height: '100vh'
+  wrapper: {
+    height: "100vh",
   },
 
   inner: {
-    position: 'relative',
+    position: "relative",
     paddingTop: rem(180),
     paddingBottom: rem(130),
 
-    [theme.fn.smallerThan('xs')]: {
+    [theme.fn.smallerThan("xs")]: {
       paddingTop: rem(80),
       paddingBottom: rem(50),
     },
@@ -93,7 +92,6 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: "rgba(255, 255, 255, .45) !important",
     },
   },
-
 }));
 const IndexPage = () => {
   const { classes } = useStyles();
@@ -108,27 +106,25 @@ const IndexPage = () => {
       size="xl"
       className={classes.wrapper}
     >
-          <div className={classes.inner}>
-
-          <Title order={3} className={classes.title}>
+      <div className={classes.inner}>
+        <Title order={3} className={classes.title}>
           Incident Reporting System
-            <Text component="span" inherit className={classes.highlight}>
+          <Text component="span" inherit className={classes.highlight}>
             used to report incidents
-            </Text>
-          </Title>
+          </Text>
+        </Title>
 
-          <div className={classes.controls}>
-            <Button
-              className={classes.control}
-              variant="white"
-              size="lg"
-              onClick={handleOnClick}
-            >
-              Get started
-            </Button>
-          </div>
-          </div>
-
+        <div className={classes.controls}>
+          <Button
+            className={classes.control}
+            variant="white"
+            size="lg"
+            onClick={handleOnClick}
+          >
+            Get started
+          </Button>
+        </div>
+      </div>
     </BackgroundImage>
   );
 };

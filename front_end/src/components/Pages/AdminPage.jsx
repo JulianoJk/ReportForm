@@ -49,7 +49,11 @@ const AdminPage = () => {
           : "Invalid role",
     },
   });
-  const { mutate: login, isLoading } = useMutation(registerAPI, {
+  const {
+    mutate: login,
+    isLoading,
+    isSuccess,
+  } = useMutation(registerAPI, {
     onSuccess: (data) => {
       if (data.status === "error") {
         setErrorResponse(data.message);
@@ -63,7 +67,6 @@ const AdminPage = () => {
 
   const handleOnSumbit = (values) => {
     login(values);
-
   };
   return (
     <>
@@ -162,6 +165,11 @@ const AdminPage = () => {
                       variant="filled"
                     >
                       {errorResponse}
+                    </Alert>
+                  )}
+                  {isSuccess && (
+                    <Alert title="Success!" color="green">
+                      User registered successfully!
                     </Alert>
                   )}
                 </Stack>

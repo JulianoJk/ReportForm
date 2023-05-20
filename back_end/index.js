@@ -13,7 +13,7 @@ app.use(cors());
 mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
 app.use(express.json());
 
-app.get("/hello", (req, res) => {
+app.get("/hello", (res) => {
   try {
     res.status(200).send("Hello!");
   } catch (err) {
@@ -101,6 +101,10 @@ app.post("/api/login", async (req, res) => {
 
 app.post("/api/newReport", async (req, res) => {
   try {
+    if (!req.body) {
+      res.status(400).json({ status: "error", message: "Empty request" });
+      return;
+    }
     const report = await Report.create({
       userEmail: req.body.userEmail,
       userName: req.body.userName,
@@ -133,10 +137,24 @@ app.post("/api/newReport", async (req, res) => {
         hospitalOutpatient: req.body.treatment.hospitalOutpatient,
         hospitalAdmitted: req.body.treatment.hospitalAdmitted,
       },
+      // Section 3
+      damagedOrLostItems: {
+        none: req.body.damagedOrLostItems.none,
+        personalProperty: req.body.damagedOrLostItems.personalProperty,
+        UniversityProperty: req.body.damagedOrLostItems.UniversityProperty,
+      },
+      descriptionDamagesOrItemsLost: req.body.descriptionDamagesOrItemsLost,
+      reportCompletedBy: {
+        sameAsAbove: req.body.reportCompletedBy.sameAsAbove,
+        otherCompletedByname: req.body.reportCompletedBy.otherCompletedByname,
+        otherCompletedByphone: req.body.reportCompletedBy.otherCompletedByphone,
+        otherCompletedByemail: req.body.reportCompletedBy.otherCompletedByemail,
+        otherCompletedBydateReported:
+          req.body.reportCompletedBy.otherCompletedBydateReported,
+      },
+      closed: false,
     });
-    res
-      .status(200)
-      .json({ status: "report submitted successfully", reportID: report._id });
+    res.status(200).json({ status: "success", reportID: report._id });
   } catch (err) {
     console.log(err);
     res.status(500).json({ status: "error", message: err });
@@ -153,21 +171,3 @@ app.listen(5001, () => {
     console.log("Error: " + err);
   });
 });
-
-// Sample Report JSON for testing in Postman:
-// {
-//   "firstName": "firstName",
-//   "lastName": "lastName",
-//   "address": "1281 asd here",
-//   "phone": "9413491238123981293",
-//   "dateReported": "912831291 12312",
-//   "email": "adasodhasuduasda@sadjasdi.com",
-//   "message": "iasjdiasjdiasjdidisajd",
-//   "status": {
-//       "faculty": true,
-//       "staff": false,
-//       "student": false,
-//       "visitor": false,
-//       "contractor": false
-//   }
-// }
