@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import IndexPage from "./components/IndexPage.jsx";
 import { NotFound } from "./components/NotFound/NotFound.jsx";
@@ -14,7 +13,6 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
       <AppContextProvider>
         <BrowserRouter>
           <Routes>

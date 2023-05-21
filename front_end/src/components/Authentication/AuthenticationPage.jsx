@@ -22,6 +22,7 @@ import { navigateByRole, parseJwt } from "../utils/utils";
 const AuthenticationForm = (props) => {
   const { classes } = useStyles();
   const [errorResponse, setErrorResponse] = useState("");
+
   const navigate = useNavigate();
   const appDispatch = useAppDispatch();
 
@@ -115,6 +116,7 @@ const AuthenticationForm = (props) => {
                 </Alert>
               )}
             </Stack>
+
             <Box>
               <Button
                 type="submit"

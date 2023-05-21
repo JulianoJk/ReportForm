@@ -33,6 +33,7 @@ const SectionForm = () => {
   const { userInfo } = useAppState();
   const [dateError, setDateError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(null);
+
   const form = useForm({
     initialValues: {
       // Section 1
