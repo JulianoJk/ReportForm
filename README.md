@@ -18,8 +18,7 @@ To run the project, open 2 terminals
 
 - [Mantine UI](https://mantine.dev/) is a React components and hooks library used for building web applications. It offers a range of pre-built UI components like buttons, forms, modals, etc., that help in developing robust and responsive interfaces quickly and efficiently.
 
-- [Tabler Icons for React](https://tabler-icons-react.vercel.app/)
-- [TanStack React Query](https://tanstack.com/query/latest)
+- [TanStack React Query](https://tanstack.com/query/latest) is a robust data fetching and state management library for React. It provides hooks to fetch, cache, and update data in your React applications without having to touch any global state. React Query offers features such as background updates, caching, automatic refetching, pagination, and much more. It simplifies the process of synchronizing server state with your UI and helps in managing local state that is derived from server state.
 
 ## Back-end
 
